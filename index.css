@@ -1,0 +1,30 @@
+.year {
+	padding: 5px;
+	border-spacing: 10px;	
+}
+
+.day {
+	font-weight: bold;
+	
+}
+#future {
+	cursor: pointer;
+}
+
+#past {
+	cursor: pointer;
+}
+
+ul {
+    width: 600px;
+    list-style-type:none;
+}
+li {
+    width:70px;
+    margin:6px 0 0 0;
+    padding:0 10px 0 0;
+    line-height:15px;
+    float:left;
+	text-align: center;
+}
+

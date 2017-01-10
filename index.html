@@ -1,0 +1,29 @@
+<html>
+<head>
+<title> 2017 Calendar
+</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+<link rel="stylesheet" type="text/css" href="index.css"/>
+</head>
+<body>
+
+<table id = "January" class = "year">
+<thead>
+<tr>
+<td class = "month"><b><button id="past"><</button><span id = "current">&nbsp;&nbsp;January 2017&nbsp;&nbsp;</span>
+<button id="future" data-bind = "click: fullName">></button></b> </td>
+</tr>
+</thead>
+</table>
+
+<ul class = "day" data-bind="foreach: days">
+<li data-bind= "text: $data"></li>
+</ul>
+<ul data-bind="foreach: dates">
+<li data-bind = "text: $data"></li>
+</ul>
+<div id="testin"></div>
+
+<script src="index.js"></script>
+</body>
+</html>
