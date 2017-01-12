@@ -7,11 +7,8 @@
 	font-weight: bold;
 	
 }
-#future {
-	cursor: pointer;
-}
 
-#past {
+#future {
 	cursor: pointer;
 }
 
@@ -27,3 +24,4 @@ li {
     float:left;
 	text-align: center;
 }
+
