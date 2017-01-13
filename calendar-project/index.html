@@ -1,6 +1,6 @@
 <html>
 <head>
-<title> 2017 Calendar
+<title> Calendar
 </title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
 <link rel="stylesheet" type="text/css" href="index.css"/>
@@ -16,10 +16,10 @@
 </thead>
 </table>
 
-<ul class = "day" data-bind="foreach: days">
+<ul class = "day" data-bind="foreach: days1">
 <li data-bind= "text: $data"></li>
 </ul>
-<ul data-bind="foreach: dates">
+<ul data-bind="foreach: dates1">
 <li data-bind = "text: $data"></li>
 </ul>
 
