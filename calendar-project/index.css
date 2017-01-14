@@ -12,6 +12,10 @@
 	cursor: pointer;
 }
 
+#past {
+	cursor: pointer;
+}
+
 ul {
     width: 600px;
     list-style-type:none;
