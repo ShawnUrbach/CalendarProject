@@ -5,8 +5,9 @@ var currentMonth = months[currentIndex];
 var currentYear = 2017;
 
 var cssChanger = function(num){
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "gray";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "red";
 }
+
 
 
 var ViewModel = function() {
@@ -55,6 +56,14 @@ DateList.shift();
 
 
 
+arraythat = [];
+for (var i=0; i < DateList.length; i++){
+	if (DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14){
+	console.log(DateList[i]);
+	arraythat.push(DateList.indexOf(DateList[i]));
+	}
+}
+alert(arraythat);
 
 //--------------------------------------------------------------------------------
 
@@ -63,6 +72,9 @@ DateList.shift();
 	
     this.dates1 = ko.observableArray(DateList);
 	this.days1 = ko.observableArray(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+	
+	
+	
 	
 	this.shiftDays = function() {
 		
@@ -123,7 +135,22 @@ DateList.shift();
 		for (var i=0; i < 49; i++){
 			this.dates1.push(DateList[i]);
 		}
-		
+	
+	arraythat = [];
+	
+	for (var i=0; i < DateList.length; i++){
+	if ((DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14) || (DateList[i] < 14 && DateList.indexOf(DateList[i]) > 30)) {
+	console.log(DateList[i]);
+	arraythat.push(DateList.indexOf(DateList[i]));
+	}
+	}	
+	for (var i=0; i < arraythat.length; i++){
+			arraythat[i] = (arraythat[i]+1);
+		}
+	
+	for (var i=0; i < arraythat.length; i++){
+			cssChanger(arraythat[i]);
+		}	
 		
 	};
 	
@@ -185,26 +212,43 @@ DateList.shift();
 		for (var i=0; i < 49; i++){
 			this.dates1.push(DateList[i]);
 		}
+	
+	arraythat = [];
+	
+	for (var i=0; i < DateList.length; i++){
+	if (DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14){
+	console.log(DateList[i]);
+	arraythat.push(DateList.indexOf(DateList[i]));
+	}
+	}	
+	for (var i=0; i < arraythat.length; i++){
+			arraythat[i] = (arraythat[i]+1);
+		}
+	
+	for (var i=0; i < arraythat.length; i++){
+			cssChanger(arraythat[i]);
+		}	
 		
+	
 		
 	};
 	
 	
 	
-	
 };
+
+
 
 ko.applyBindings(ViewModel);
 
+var arraythatcopy = arraythat.slice(0);
 
+for (var i=0; i < arraythat.length; i++){
+			cssChanger(arraythat[i+1]);
+			cssChanger(arraythatcopy.pop()+1);
+		}
+		
 
-
-
-
-
-
-document.getElementById('future').addEventListener("click", function(){
-});
 
 
 
