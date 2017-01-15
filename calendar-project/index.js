@@ -5,7 +5,7 @@ var currentMonth = months[currentIndex];
 var currentYear = 2017;
 
 var cssChanger = function(num){
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "red";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "gray";
 }
 
 
@@ -57,13 +57,25 @@ DateList.shift();
 
 
 arraythat = [];
+
 for (var i=0; i < DateList.length; i++){
-	if (DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14){
+if (DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14) {
 	console.log(DateList[i]);
 	arraythat.push(DateList.indexOf(DateList[i]));
 	}
 }
-alert(arraythat);
+for (var i=0; i < DateList.length; i++){
+	if (DateList[i] < 20 && DateList.lastIndexOf(DateList[i]) > 30){
+	console.log(DateList[i]);
+	arraythat.push(DateList.lastIndexOf(DateList[i]));
+	}
+}
+
+
+for (var i=0; i < arraythat.length; i++){
+			arraythat[i] = (arraythat[i]+1);
+		}
+
 
 //--------------------------------------------------------------------------------
 
@@ -139,15 +151,21 @@ DateList.shift();
 	arraythat = [];
 	
 	for (var i=0; i < DateList.length; i++){
-	if ((DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14) || (DateList[i] < 14 && DateList.indexOf(DateList[i]) > 30)) {
+	if (DateList[i] > 14 && DateList.indexOf(DateList[i]) < 14) {
 	console.log(DateList[i]);
 	arraythat.push(DateList.indexOf(DateList[i]));
 	}
-	}	
+	}
+for (var i=0; i < DateList.length; i++){
+	if (DateList[i] < 20 && DateList.lastIndexOf(DateList[i]) > 30){
+	console.log(DateList[i]);
+	arraythat.push(DateList.lastIndexOf(DateList[i]));
+	}
+}	
 	for (var i=0; i < arraythat.length; i++){
 			arraythat[i] = (arraythat[i]+1);
 		}
-	
+		
 	for (var i=0; i < arraythat.length; i++){
 			cssChanger(arraythat[i]);
 		}	
@@ -220,7 +238,14 @@ DateList.shift();
 	console.log(DateList[i]);
 	arraythat.push(DateList.indexOf(DateList[i]));
 	}
-	}	
+	}
+
+for (var i=0; i < DateList.length; i++){
+	if (DateList[i] < 20 && DateList.lastIndexOf(DateList[i]) > 30){
+	console.log(DateList[i]);
+	arraythat.push(DateList.lastIndexOf(DateList[i]));
+	}
+}		
 	for (var i=0; i < arraythat.length; i++){
 			arraythat[i] = (arraythat[i]+1);
 		}
@@ -241,11 +266,11 @@ DateList.shift();
 
 ko.applyBindings(ViewModel);
 
-var arraythatcopy = arraythat.slice(0);
+
+alert(arraythat);
 
 for (var i=0; i < arraythat.length; i++){
-			cssChanger(arraythat[i+1]);
-			cssChanger(arraythatcopy.pop()+1);
+			cssChanger(arraythat[i]);
 		}
 		
 
