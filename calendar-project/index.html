@@ -1,28 +1,33 @@
 <html>
-<head>
-<title> Calendar
-</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
-<link rel="stylesheet" type="text/css" href="index.css"/>
-</head>
-<body>
 
-<table class = "year">
-<thead>
-<tr>
-<td class = "month"><b><button id="past" data-bind = "click: shiftDaysBack"><</button><span id = "current">&nbsp;&nbsp;February 2017&nbsp;&nbsp;</span>
-<button id="future" data-bind = "click: shiftDays">></button></b> </td>
-</tr>
-</thead>
-</table>
+	<head>
+		<title> Calendar
+		</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+		<link rel="stylesheet" type="text/css" href="index.css"/>
+	</head>
+	
+	<body>
+		<table class = "year">
+			<thead>
+				<tr>
+				<td class = "month">
+					<b><button id="past" data-bind = "click: shiftDaysBack"><</button>
+					<span id = "current">&nbsp;&nbsp;Jan 2017&nbsp;&nbsp;</span>
+					<button id="future" data-bind = "click: shiftDays">></button></b>
+				</td>
+				</tr>
+			</thead>
+		</table>
 
-<ul class = "day" data-bind="foreach: days1">
-<li data-bind= "text: $data"></li>
-</ul>
-<ul data-bind="foreach: dates1">
-<li data-bind = "text: $data"></li>
-</ul>
+		<ul class = "day" data-bind="foreach: daysoftheweek">
+			<li data-bind= "text: $data"></li>
+		</ul>
+		<ul data-bind="foreach: dates">
+			<li data-bind = "text: $data"></li>
+		</ul>
 
-<script src="index.js"></script>
-</body>
+		<script src="index.js"></script>
+	</body>
+	
 </html>
