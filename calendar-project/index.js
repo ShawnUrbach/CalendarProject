@@ -1,5 +1,5 @@
 function loadJanuary(){
-	document.getElementById('past').click();
+		document.getElementById('past').click();
 }
 
 window.onload = loadJanuary;
@@ -9,8 +9,9 @@ window.onload = loadJanuary;
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
 'Sep', 'Oct', 'Nov', 'Dec']
 var currentIndex = 1;
-var currentMonth = months[currentIndex];
 var currentYear = 2017;
+var currentTimeIndex = 24205;
+var currentMonth = months[currentIndex];
 var DateList = [];
 var pre_post_Dates = [];
 var date1;
@@ -23,6 +24,11 @@ var between;
 //Selects list item and changes CSS style
 var cssChanger = function(num){
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "gray";
+}
+
+var cssChanger2 = function(num){
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "#1AF0D3";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.color = "white";
 }
 
 //Creates array of prepended and postpended days for style change
@@ -49,7 +55,7 @@ var changeMonthText = function(){
 	"&nbsp;&nbsp;"
 	+ currentMonth
 	+ "&nbsp;&nbsp;"
-	+ currentYear	
+	+ currentYear
 }
 
 //Populates array of dates
@@ -65,12 +71,78 @@ var populateDays = function(){
 	}
 }
 
+ko.extenders.number = function(observable, opt) {
+   return ko.computed({
+       read: observable,
+       write: function(value) {
+           if(typeof value !== "number") {
+               value = parseFloat(value);
+           }           
+           
+           if(!isNaN(value)) {
+               observable(value);
+           }           
+       }
+   });
+}
+
+
 //-------------------------------------------------------------------------------VIEWMODEL
 
 var ViewModel = function() {
 
 	//---------------------------------------------------------------------------VIEWMODEL FUNCTIONS
 	
+	
+	this.userYear = ko.observable().extend({ number: true });
+	this.userMonth = ko.observable().extend({ number: true });
+	this.userDate = ko.observable().extend({ number: true });
+	
+	this.yearIndex = ko.computed(function() {
+        return ((((this.userYear()*12))));
+    }, this);
+	
+	this.MonthIndex = ko.computed(function() {
+        return ((((this.userMonth()))));
+    }, this);
+	
+	this.userTimeIndex = ko.computed(function() {
+        return ((this.yearIndex())+(this.MonthIndex()));
+    }, this);
+
+	this.loadUserDate = function(){
+		this.userTimeChange = ko.computed(function() {
+			return (currentTimeIndex-(this.userTimeIndex()));
+		}, this);
+
+		if (userTimeIndex() != currentTimeIndex){
+			if (userTimeChange() > 0){
+				for (var i=0; i < Math.abs(userTimeChange()); i++){
+					document.getElementById('past').click();
+				}
+			}
+			if (userTimeChange() < 0){
+				for (var i=0; i < Math.abs(userTimeChange()); i++){
+					document.getElementById('future').click();
+				}
+			}
+		}
+		
+		var dateSelection = DateList.find(findDate);
+				
+		function findDate(element) {
+			return element == userDate();
+		}
+		
+		if (dateSelection > 18){
+			cssChanger2((DateList.lastIndexOf(dateSelection))+1);
+		}
+		
+		if (dateSelection <= 18){
+			cssChanger2((DateList.indexOf(dateSelection))+1);
+		}
+	}
+
 	//Changes current date array
 	var setNewDate = function(){
 		date1 = new Date(2017,2,(startingDate1));
@@ -129,11 +201,12 @@ var ViewModel = function() {
 		//Increment values
 		//After December, loop back to January
 		currentIndex+=1;
+		currentTimeIndex +=1;
 		if (currentIndex == 12){
 			currentIndex = 0;
-			currentYear +=1;
+			currentYear += 1;
 		}
-		
+
 		changeMonthText();
 		
 		//After Decemeber, increment year +1
@@ -147,12 +220,12 @@ var ViewModel = function() {
 		startingDate1 += 28;
 		startingDate2 += 28;
 		
-		//If 1st of month is after 5th index, shift forward one week
-		if (dates().indexOf(1) > 5){
+		//If 1st of month is after 6th index, shift forward one week
+		if (dates().indexOf(1) > 6){
 			startingDate1 +=7;
 			startingDate2 +=7;	
 		}
-			
+		
 		setNewDate();
 
 		//---------------------------------------------------------------------POPULATE NEXT MONTH
@@ -164,7 +237,7 @@ var ViewModel = function() {
 		
 		pre_post_Dates = [];
 		createCSSChangeArray();	
-		applyCSSToPrePost();			
+		applyCSSToPrePost();		
 	};
 		
 	//---------------------------------------------------------------------GO BACKWARDS IN TIME
@@ -177,11 +250,12 @@ var ViewModel = function() {
 		//Decrement values
 		//After January, loop back to December
 		currentIndex-=1;
+		currentTimeIndex -=1;
 		if (currentIndex == -1){
 			currentIndex = 11;
-			currentYear -=1;
+			currentYear -= 1;
 		}
-		
+	
 		changeMonthText();
 		
 		//After January, decrement year -1
@@ -200,7 +274,7 @@ var ViewModel = function() {
 			startingDate1 -=7;
 			startingDate2 -=7;	
 		}
-			
+				
 		setNewDate();
 	
 		//----------------------------------------------------------------POPULATE PREVIOUS MONTH
