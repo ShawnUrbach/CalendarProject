@@ -19,7 +19,14 @@ var date2;
 var day;
 var between;
 
+var offset;
+var dateSelection;
+
+
+
+
 //------------------------------------------------------------------------------FUNCTIONS
+
 
 //Selects list item and changes CSS style
 var cssChanger = function(num){
@@ -29,6 +36,18 @@ var cssChanger = function(num){
 var cssChanger2 = function(num){
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "#1AF0D3";
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.color = "white";
+}
+
+var cssChanger3 = function(num){
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "#1AF0D3";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.color = "white";
+	
+	var elemRect = document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").getBoundingClientRect();
+	var bodyRect = document.body.getBoundingClientRect(),
+    offset   = (elemRect.top - bodyRect.top)-15;
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").innerHTML = dateSelection + '<span class = "testit">.</span>';
+	document.querySelector(".testit").style.top = offset;
+	alert(document.querySelector(".testit").style.top);
 }
 
 //Creates array of prepended and postpended days for style change
@@ -87,6 +106,25 @@ ko.extenders.number = function(observable, opt) {
 }
 
 
+//CONVERTS RAW DATES TO DATE INDEXES
+var cssSelection = function(changeThis){
+	dateSelection = DateList.find(findDate);
+				
+		function findDate(element) {
+			return element == changeThis;
+		}
+		
+		if (dateSelection > 18){
+			cssChanger3((DateList.lastIndexOf(dateSelection))+1);
+		}
+		
+		if (dateSelection <= 18){
+			cssChanger3((DateList.indexOf(dateSelection))+1);
+		} 
+}
+
+
+
 //-------------------------------------------------------------------------------VIEWMODEL
 
 var ViewModel = function() {
@@ -97,6 +135,15 @@ var ViewModel = function() {
 	this.userYear = ko.observable().extend({ number: true });
 	this.userMonth = ko.observable().extend({ number: true });
 	this.userDate = ko.observable().extend({ number: true });
+	
+	//Array of visible user converted dates
+	this.userTest = ko.observableArray();
+	
+	//Array of user date numbers
+	this.userTestDates = ko.observableArray();
+	
+	//Array of user month indexes
+	this.userIndexes = ko.observableArray();
 	
 	this.yearIndex = ko.computed(function() {
         return ((((this.userYear()*12))));
@@ -128,7 +175,8 @@ var ViewModel = function() {
 			}
 		}
 		
-		var dateSelection = DateList.find(findDate);
+		//CONVERTS RAW DATES TO DATE INDEXES
+		dateSelection = DateList.find(findDate);
 				
 		function findDate(element) {
 			return element == userDate();
@@ -140,8 +188,21 @@ var ViewModel = function() {
 		
 		if (dateSelection <= 18){
 			cssChanger2((DateList.indexOf(dateSelection))+1);
-		}
+		} 
 	}
+	
+	//EVENT BUTTON ON CLICK
+	this.addEvent = function(){
+		userTest.push(' ' + (userMonth()+1).toString() + '/' + userDate().toString() + '/' + userYear().toString());
+		userTestDates.push(userDate());
+		userIndexes.push(userTimeIndex());
+			if (userTimeIndex() == currentTimeIndex){
+					cssSelection(userDate());	
+		}
+
+	}
+	
+	
 
 	//Changes current date array
 	var setNewDate = function(){
@@ -237,7 +298,13 @@ var ViewModel = function() {
 		
 		pre_post_Dates = [];
 		createCSSChangeArray();	
-		applyCSSToPrePost();		
+		applyCSSToPrePost();
+		
+		for (var i=0; i < userIndexes().length; i++){
+			if ((userIndexes()[i]) == currentTimeIndex){
+				cssSelection(userTestDates()[i]);
+			}
+		}			
 	};
 		
 	//---------------------------------------------------------------------GO BACKWARDS IN TIME
@@ -286,7 +353,13 @@ var ViewModel = function() {
 		
 		pre_post_Dates = [];
 		createCSSChangeArray();	
-		applyCSSToPrePost();					
+		applyCSSToPrePost();
+		
+		for (var i=0; i < userIndexes().length; i++){
+			if ((userIndexes()[i]) == currentTimeIndex){
+				cssSelection(userTestDates()[i]);
+			}
+		}		
 	};	
 };
 
