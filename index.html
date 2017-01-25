@@ -49,6 +49,7 @@
 		<br>
 		<button data-bind = "click: loadUserDate">Go to Date</button>
 		<br>
+		<input type="color" name="favcolor" id="userColor" data-bind="value: userColor">
 		<button data-bind = "click: addEvent">Add Event</button>
 		<br>
 		<button>Remove Event</button>
@@ -56,7 +57,9 @@
 		Event List:
 		<br>
 		</div>
-		<div id = "userTest" data-bind = "text: userTest"><div>
+		<ul data-bind="foreach: userTest" id="userTest">
+			<li data-bind = "text: $data" class="events"></li>
+		</ul>
 		
 		<script src="index.js"></script>
 	</body>

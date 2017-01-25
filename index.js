@@ -28,6 +28,7 @@ var dateSelection;
 //------------------------------------------------------------------------------FUNCTIONS
 
 
+
 //Selects list item and changes CSS style
 var cssChanger = function(num){
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "gray";
@@ -47,7 +48,14 @@ var cssChanger3 = function(num){
     offset   = (elemRect.top - bodyRect.top)-15;
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").innerHTML = dateSelection + '<span class = "testit">.</span>';
 	document.querySelector(".testit").style.top = offset;
-	alert(document.querySelector(".testit").style.top);
+	
+	var childIndex = 1;
+	
+	for (var i=0; i < userIndexes().length; i++){
+		if ((userIndexes()[i]) == currentTimeIndex){
+			document.querySelector(".testit").style.color = userColorArray()[i];
+		}
+	}
 }
 
 //Creates array of prepended and postpended days for style change
@@ -135,6 +143,7 @@ var ViewModel = function() {
 	this.userYear = ko.observable().extend({ number: true });
 	this.userMonth = ko.observable().extend({ number: true });
 	this.userDate = ko.observable().extend({ number: true });
+	this.userColor = ko.observable();
 	
 	//Array of visible user converted dates
 	this.userTest = ko.observableArray();
@@ -144,6 +153,9 @@ var ViewModel = function() {
 	
 	//Array of user month indexes
 	this.userIndexes = ko.observableArray();
+	
+	//Array of user colors
+	this.userColorArray = ko.observableArray();
 	
 	this.yearIndex = ko.computed(function() {
         return ((((this.userYear()*12))));
@@ -195,11 +207,24 @@ var ViewModel = function() {
 	this.addEvent = function(){
 		userTest.push(' ' + (userMonth()+1).toString() + '/' + userDate().toString() + '/' + userYear().toString());
 		userTestDates.push(userDate());
+		userColorArray.push(userColor());
 		userIndexes.push(userTimeIndex());
 			if (userTimeIndex() == currentTimeIndex){
 					cssSelection(userDate());	
 		}
 
+	
+	var ul = document.getElementById("userTest");
+	var items = ul.getElementsByTagName("li");
+	for (var i = 0; i < items.length; i++) {
+		items[i].style.color = userColorArray()[i];;
+  
+	}
+	
+	
+	
+
+	
 	}
 	
 	
@@ -251,6 +276,8 @@ var ViewModel = function() {
 	
 	//Bottom 7 rows of calendar
 	this.dates = ko.observableArray(DateList);
+	
+	var periods = ".";
 		
 	//-------------------------------------------------------------------------GO FORWARD IN TIME
 	
