@@ -27,7 +27,17 @@ var dateSelection;
 
 //------------------------------------------------------------------------------FUNCTIONS
 
+var cYear = function(){
+	return this.userYear();
+}
 
+var cDate = function(){
+	return this.userDate();
+}
+
+var dateLength = function(){
+	return this.userTest().length;	
+}
 
 //Selects list item and changes CSS style
 var cssChanger = function(num){
@@ -35,13 +45,12 @@ var cssChanger = function(num){
 }
 
 var cssChanger2 = function(num){
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "#1AF0D3";
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.color = "white";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineColor = "red";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineWidth = "2px";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineStyle = "solid";
 }
 
 var cssChanger3 = function(num){
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.backgroundColor = "#1AF0D3";
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.color = "white";
 	
 	var elemRect = document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").getBoundingClientRect();
 	var bodyRect = document.body.getBoundingClientRect(),
@@ -57,6 +66,25 @@ var cssChanger3 = function(num){
 		}
 	}
 }
+
+var cssChanger4 = function(num){
+	
+
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").innerHTML = dateSelection;
+
+	
+}
+
+var cssChanger5 = function(num){
+	
+
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineColor = "white";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineWidth = "0px";
+	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineStyle = "solid";
+
+	
+}
+
 
 //Creates array of prepended and postpended days for style change
 var createCSSChangeArray = function(){
@@ -131,6 +159,23 @@ var cssSelection = function(changeThis){
 		} 
 }
 
+//CONVERTS RAW DATES TO DATE INDEXES
+var cssSelection2 = function(changeThis){
+	dateSelection = DateList.find(findDate);
+				
+		function findDate(element) {
+			return element == changeThis;
+		}
+		
+		if (dateSelection > 18){
+			cssChanger4((DateList.lastIndexOf(dateSelection))+1);
+		}
+		
+		if (dateSelection <= 18){
+			cssChanger4((DateList.indexOf(dateSelection))+1);
+		} 
+}
+
 
 
 //-------------------------------------------------------------------------------VIEWMODEL
@@ -144,6 +189,10 @@ var ViewModel = function() {
 	this.userMonth = ko.observable().extend({ number: true });
 	this.userDate = ko.observable().extend({ number: true });
 	this.userColor = ko.observable();
+	
+
+
+
 	
 	//Array of visible user converted dates
 	this.userTest = ko.observableArray();
@@ -169,6 +218,9 @@ var ViewModel = function() {
         return ((this.yearIndex())+(this.MonthIndex()));
     }, this);
 
+	
+	this.prevDates = ko.observableArray();	
+	
 	this.loadUserDate = function(){
 		this.userTimeChange = ko.computed(function() {
 			return (currentTimeIndex-(this.userTimeIndex()));
@@ -188,23 +240,39 @@ var ViewModel = function() {
 		}
 		
 		//CONVERTS RAW DATES TO DATE INDEXES
-		dateSelection = DateList.find(findDate);
-				
+		dateSelection = DateList.find(findDate);	
+			
 		function findDate(element) {
 			return element == userDate();
 		}
 		
+		if (prevDates().length > 0){
+			cssChanger5(prevDates.pop());
+		}
+		
 		if (dateSelection > 18){
 			cssChanger2((DateList.lastIndexOf(dateSelection))+1);
+			prevDates.push((DateList.lastIndexOf(dateSelection))+1);
 		}
 		
 		if (dateSelection <= 18){
 			cssChanger2((DateList.indexOf(dateSelection))+1);
-		} 
+			prevDates.push((DateList.indexOf(dateSelection))+1);
+		}
 	}
+
 	
 	//EVENT BUTTON ON CLICK
 	this.addEvent = function(){
+		
+		
+		var search = ' ' + (userMonth()+1).toString() + '/' + userDate().toString() + '/' + userYear().toString();
+		var occurances = userTest().filter(function(val){
+			return val === search;
+		}).length;
+	
+		if (occurances < 2){
+		
 		userTest.push(' ' + (userMonth()+1).toString() + '/' + userDate().toString() + '/' + userYear().toString());
 		userTestDates.push(userDate());
 		userColorArray.push(userColor());
@@ -212,21 +280,31 @@ var ViewModel = function() {
 			if (userTimeIndex() == currentTimeIndex){
 					cssSelection(userDate());	
 		}
-
 	
 	var ul = document.getElementById("userTest");
 	var items = ul.getElementsByTagName("li");
 	for (var i = 0; i < items.length; i++) {
-		items[i].style.color = userColorArray()[i];;
-  
+		items[i].style.color = userColorArray()[i];
+	}
 	}
 	
+	if (occurances == 2){
+		alert('Can not add more than two events on the same day.');
+	}
 	
+	}
 	
+	this.removeEvent = function(){
+		userTest.remove(' ' + (userMonth()+1).toString() + '/' + userDate().toString() + '/' + userYear().toString());
+		userTestDates.splice((userIndexes().indexOf(userTimeIndex())),1);
+		userColorArray.splice((userIndexes().indexOf(userTimeIndex())),1);
+		userIndexes.remove(userTimeIndex());
 
-	
+		if (userTimeIndex() == currentTimeIndex){
+			cssSelection2(userDate());	
+		
 	}
-	
+	}
 	
 
 	//Changes current date array

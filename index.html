@@ -47,12 +47,13 @@
 		<br>
 		<input data-bind="value: userDate" placeholder="Date" size="8"></input>
 		<br>
-		<button data-bind = "click: loadUserDate">Go to Date</button>
+		<button data-bind = "click: loadUserDate, enable: cYear() < 2150 && cYear() > 1900 && cDate() < 32">Go to Date</button>
 		<br>
 		<input type="color" name="favcolor" id="userColor" data-bind="value: userColor">
-		<button data-bind = "click: addEvent">Add Event</button>
+		<button data-bind = "click: addEvent, enable: cYear() < 2150 && cYear() > 1900 && cDate() < 32">Add Event</button>
 		<br>
-		<button>Remove Event</button>
+		<button data-bind = "click: removeEvent, enable: dateLength() > 0">Remove Event</button>
+		
 		<div id = "userTestLabel"><br>
 		Event List:
 		<br>
