@@ -21,7 +21,7 @@ var between;
 
 var offset;
 var dateSelection;
-
+var selectIndex = 0;
 
 
 
@@ -50,21 +50,22 @@ var cssChanger2 = function(num){
 	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").style.outlineStyle = "solid";
 }
 
-var cssChanger3 = function(num){
+
+var colorChanger = function(){
 	
-	var elemRect = document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").getBoundingClientRect();
-	var bodyRect = document.body.getBoundingClientRect(),
-    offset   = (elemRect.top - bodyRect.top)-15;
-	document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").innerHTML = dateSelection + '<span class = "testit">.</span>';
-	document.querySelector(".testit").style.top = offset;
-	
-	var childIndex = 1;
-	
-	for (var i=0; i < userIndexes().length; i++){
-		if ((userIndexes()[i]) == currentTimeIndex){
-			document.querySelector(".testit").style.color = userColorArray()[i];
+		for (var i=0; i < userIndexes().length; i++){
+			if ((userIndexes()[i]) == currentTimeIndex){
+				document.getElementById("testit"+i).style.color = userColorArray()[i];
 		}
 	}
+	
+}
+
+var cssChanger3 = function(num){
+	
+
+			document.querySelector("ul:nth-child(3) > li:nth-child("+num+")").innerHTML = dateSelection + '<span id = "testit'+selectIndex+'">&#149;</span>';
+			selectIndex+=1;
 }
 
 var cssChanger4 = function(num){
@@ -277,9 +278,12 @@ var ViewModel = function() {
 		userTestDates.push(userDate());
 		userColorArray.push(userColor());
 		userIndexes.push(userTimeIndex());
-			if (userTimeIndex() == currentTimeIndex){
-					cssSelection(userDate());	
+		
+		if (userTimeIndex() == currentTimeIndex){
+			cssSelection(userDate());	
 		}
+
+		colorChanger();
 	
 	var ul = document.getElementById("userTest");
 	var items = ul.getElementsByTagName("li");
@@ -300,11 +304,17 @@ var ViewModel = function() {
 		userColorArray.splice((userIndexes().indexOf(userTimeIndex())),1);
 		userIndexes.remove(userTimeIndex());
 
-		if (userTimeIndex() == currentTimeIndex){
-			cssSelection2(userDate());	
+	selectIndex = 0;
+		for (var i=0; i < userIndexes().length; i++){
+			if ((userIndexes()[i]) == currentTimeIndex){
+				cssSelection(userTestDates()[i]);
+			}
+		}
+		colorChanger();
 		
 	}
-	}
+	
+	
 	
 
 	//Changes current date array
@@ -405,11 +415,13 @@ var ViewModel = function() {
 		createCSSChangeArray();	
 		applyCSSToPrePost();
 		
+		selectIndex = 0;
 		for (var i=0; i < userIndexes().length; i++){
 			if ((userIndexes()[i]) == currentTimeIndex){
 				cssSelection(userTestDates()[i]);
 			}
-		}			
+		}
+		colorChanger();
 	};
 		
 	//---------------------------------------------------------------------GO BACKWARDS IN TIME
@@ -460,11 +472,13 @@ var ViewModel = function() {
 		createCSSChangeArray();	
 		applyCSSToPrePost();
 		
+		selectIndex = 0;
 		for (var i=0; i < userIndexes().length; i++){
 			if ((userIndexes()[i]) == currentTimeIndex){
 				cssSelection(userTestDates()[i]);
 			}
-		}		
+		}
+		colorChanger();
 	};	
 };
 

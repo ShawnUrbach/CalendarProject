@@ -1,3 +1,8 @@
+html {
+	zoom: 200%;
+}
+
+
 .year {
 	padding: 5px;
 	border-spacing: 10px;	
@@ -27,6 +32,7 @@ li {
     line-height:15px;
     float:left;
 	text-align: center;
+
 }
 
 #userTestLabel {
@@ -47,9 +53,3 @@ li {
 	font-weight: bold;
 }
 
-.testit {
-	font-size: 500%;
-	color: black;
-	position: absolute;
-	top: 102px;
-}

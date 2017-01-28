@@ -28,7 +28,7 @@
 		</ul>
 
 	
-		<input id = "userYear" data-bind="value: userYear" placeholder="Year" size="8"></input>
+		<input id = "userYear" data-bind="value: userYear" placeholder="Year" type="number"></input>
 		<br>
 		<select id = "userMonth" data-bind="value: userMonth">
 		  <option value="0">January</option>
@@ -45,7 +45,7 @@
 		  <option value="11">December</option>
 		</select>
 		<br>
-		<input data-bind="value: userDate" placeholder="Date" size="8"></input>
+		<input data-bind="value: userDate" placeholder="Date" type="number"></input>
 		<br>
 		<button data-bind = "click: loadUserDate, enable: cYear() < 2150 && cYear() > 1900 && cDate() < 32">Go to Date</button>
 		<br>
