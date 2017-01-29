@@ -4,7 +4,7 @@ function loadJanuary(){
 
 window.onload = loadJanuary;
 
-//-----------------------------------------------------------------------------VARIABLE DECLARATIONS
+//VARIABLE DECLARATIONS
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
 'Sep', 'Oct', 'Nov', 'Dec']
@@ -20,7 +20,7 @@ var between;
 var dateSelection;
 var selectIndex = 0;
 
-//------------------------------------------------------------------------------FUNCTIONS
+//FUNCTIONS
 
 var returnUserYear = function(){
 	return this.userYear();
@@ -153,11 +153,11 @@ ko.extenders.number = function(observable, opt) {
    });
 }
 
-//-------------------------------------------------------------------------------VIEWMODEL
+//VIEWMODEL
 
 var ViewModel = function() {
 
-	//---------------------------------------------------------------------------VIEWMODEL FUNCTIONS
+	//VIEWMODEL FUNCTIONS
 	
 	this.userYear = ko.observable().extend({ number: true });
 	this.userMonth = ko.observable().extend({ number: true });
@@ -306,7 +306,7 @@ var ViewModel = function() {
 		}
 	}		
 
-	//----------------------------------------------------SET INITIAL OBSERVABLE CALENDAR VALUES
+	//SET INITIAL OBSERVABLE CALENDAR VALUES
 
 	var month = 1;
 	var year = 2017;
@@ -334,12 +334,12 @@ var ViewModel = function() {
 	//Bottom 7 rows of calendar
 	this.dates = ko.observableArray(dateList);
 	
-	//-------------------------------------------------------------------------GO FORWARD IN TIME
+	//GO FORWARD IN TIME
 	
 	//Shifts days forward on click
 	this.shiftDays = function() {
 		
-		//---------------------------------------------------------------------INITIALIZE NEXT MONTH		
+		//INITIALIZE NEXT MONTH		
 		
 		//Increment values
 		//After December, loop back to January
@@ -371,12 +371,12 @@ var ViewModel = function() {
 		
 		setNewDate();
 
-		//---------------------------------------------------------------------POPULATE NEXT MONTH
+		//POPULATE NEXT MONTH
 		
 		dateList = [];
 		populateDays();
 		
-		//-----------------------------------------------------------------APPLY STYLE TO POST/PRE DATES
+		//APPLY STYLE TO POST/PRE DATES
 		
 		pre_post_Dates = [];
 		createCSSChangeArray();	
@@ -386,12 +386,12 @@ var ViewModel = function() {
 		colorChanger();
 	};
 		
-	//---------------------------------------------------------------------GO BACKWARDS IN TIME
+	//GO BACKWARDS IN TIME
 	
 	//Shifts days backwards on click
 	this.shiftDaysBack = function() {
 		
-		//-----------------------------------------------------------------INITIALIZE PREVIOUS MONTH
+		//INITIALIZE PREVIOUS MONTH
 		
 		//Decrement values
 		//After January, loop back to December
@@ -423,12 +423,12 @@ var ViewModel = function() {
 				
 		setNewDate();
 	
-		//----------------------------------------------------------------POPULATE PREVIOUS MONTH
+		//POPULATE PREVIOUS MONTH
 
 		dateList = [];
 		populateDays();
 		
-		//----------------------------------------------------------------APPLY STYLE TO POST/PRE DATES
+		//APPLY STYLE TO POST/PRE DATES
 		
 		pre_post_Dates = [];
 		createCSSChangeArray();	
@@ -440,16 +440,3 @@ var ViewModel = function() {
 };
 
 ko.applyBindings(ViewModel);
-
-
-
-
-		
-
-
-
-
-
-
-
-

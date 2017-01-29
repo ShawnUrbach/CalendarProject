@@ -10,13 +10,13 @@
 	<body>
 	
 		<!-- Month view/ navigation buttons -->
-		<table class = "year">
+		<table class="year">
 			<thead>
 				<tr>
-				<td class = "month">
-					<b><button id="past" data-bind = "click: shiftDaysBack"><</button>
-					<span id = "current">&nbsp;&nbsp;Jan 2017&nbsp;&nbsp;</span>
-					<button id="future" data-bind = "click: shiftDays">></button></b>
+				<td class="month">
+					<b><button id="past" data-bind="click: shiftDaysBack"><</button>
+					<span id="current">&nbsp;&nbsp;Jan 2017&nbsp;&nbsp;</span>
+					<button id="future" data-bind="click: shiftDays">></button></b>
 				</td>
 				</tr>
 			</thead>
@@ -24,18 +24,18 @@
 
 		<!-- Calendar view -->
 		<ul class = "day" data-bind="foreach: daysoftheweek">
-			<li data-bind= "text: $data"></li>
+			<li data-bind="text: $data"></li>
 		</ul>
 		<ul data-bind="foreach: dates">
-			<li data-bind = "text: $data"></li>
+			<li data-bind="text: $data"></li>
 		</ul>
 
 		<!-- User input for year -->
-		<input id = "userYear" data-bind="value: userYear" placeholder="Year" type="number"></input>
+		<input id="userYear" data-bind="value: userYear" placeholder="Year" type="number"></input>
 		<br>
 		
 		<!-- User input for month -->
-		<select id = "userMonth" data-bind="value: userMonth">
+		<select id="userMonth" data-bind="value: userMonth">
 		  <option value="0">January</option>
 		  <option value="1">February</option>
 		  <option value="2">March</option>
@@ -52,19 +52,21 @@
 		<br>
 		
 		<!-- User input for day -->
-		<input data-bind="value: userDate" placeholder="Date" type="number"></input>
+		<input id="userDate" data-bind="value: userDate" placeholder="Date" type="number"></input>
 		<br>
 		
 		<!-- Buttons for date selection, color chooser, adding events, and removing events -->
-		<button data-bind = "click: loadUserDate, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32">Go to Date</button>
+		<div id="buttons">
+		<button data-bind="click: loadUserDate, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32" id="loadUserDate">Go to Date</button>
 		<br>
-		<input type="color" name="favcolor" id="userColor" data-bind="value: userColor">
-		<button data-bind = "click: addEvent, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32">Add Event</button>
+		<input type="color" name="favcolor" id="userColor" data-bind="value: userColor" id="userColor">
+		<button data-bind="click: addEvent, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32" id="addEvent">Add Event</button>
 		<br>
-		<button data-bind = "click: removeEvent, enable: eventLength() > 0">Remove Event</button>
+		<button data-bind="click: removeEvent, enable: eventLength() > 0" id="removeEvent">Remove Event</button>
+		</div>
 		
 		<!-- Event list label -->
-		<div id = "eventListLabel">
+		<div id="eventListLabel">
 			<br>
 			Event List:
 			<br>
@@ -72,7 +74,7 @@
 		
 		<!-- Event list -->
 		<ul data-bind="foreach: eventList" id="eventList">
-			<li data-bind = "text: $data" class="events"></li>
+			<li data-bind="text: $data" class="events"></li>
 		</ul>
 		
 		<script src="index.js"></script>

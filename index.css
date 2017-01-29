@@ -35,20 +35,28 @@ li {
 	font-weight: bold;
 }
 
-#future {
+#userYear, #userMonth, #userDate, #loadUserDate, #userColor, #removeEvent {
+	margin-left: 10px;
+}
+
+#userYear, #buttons {
+	margin-top: 10px;
+}
+
+#future, #past {
 	cursor: pointer;
 }
 
-#past {
-	cursor: pointer;
+#eventListLabel, #eventList {
+	clear: both;
 }
 
 #eventListLabel {
-	clear: both;
+	margin-left: 20px;
+	font-weight: bold;
 }
 
-#eventList {
-	clear: both;
-}
-
+input[type=number]{
+    width: 80px;
+} 
 
