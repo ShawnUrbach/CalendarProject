@@ -8,6 +8,8 @@
 	</head>
 	
 	<body>
+	
+		<!-- Month view/ navigation buttons -->
 		<table class = "year">
 			<thead>
 				<tr>
@@ -20,6 +22,7 @@
 			</thead>
 		</table>
 
+		<!-- Calendar view -->
 		<ul class = "day" data-bind="foreach: daysoftheweek">
 			<li data-bind= "text: $data"></li>
 		</ul>
@@ -27,9 +30,11 @@
 			<li data-bind = "text: $data"></li>
 		</ul>
 
-	
+		<!-- User input for year -->
 		<input id = "userYear" data-bind="value: userYear" placeholder="Year" type="number"></input>
 		<br>
+		
+		<!-- User input for month -->
 		<select id = "userMonth" data-bind="value: userMonth">
 		  <option value="0">January</option>
 		  <option value="1">February</option>
@@ -45,20 +50,28 @@
 		  <option value="11">December</option>
 		</select>
 		<br>
+		
+		<!-- User input for day -->
 		<input data-bind="value: userDate" placeholder="Date" type="number"></input>
 		<br>
-		<button data-bind = "click: loadUserDate, enable: cYear() < 2150 && cYear() > 1900 && cDate() < 32">Go to Date</button>
+		
+		<!-- Buttons for date selection, color chooser, adding events, and removing events -->
+		<button data-bind = "click: loadUserDate, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32">Go to Date</button>
 		<br>
 		<input type="color" name="favcolor" id="userColor" data-bind="value: userColor">
-		<button data-bind = "click: addEvent, enable: cYear() < 2150 && cYear() > 1900 && cDate() < 32">Add Event</button>
+		<button data-bind = "click: addEvent, enable: returnUserYear() < 2150 && returnUserYear() > 1900 && returnUserDate() < 32">Add Event</button>
 		<br>
-		<button data-bind = "click: removeEvent, enable: dateLength() > 0">Remove Event</button>
+		<button data-bind = "click: removeEvent, enable: eventLength() > 0">Remove Event</button>
 		
-		<div id = "userTestLabel"><br>
-		Event List:
-		<br>
+		<!-- Event list label -->
+		<div id = "eventListLabel">
+			<br>
+			Event List:
+			<br>
 		</div>
-		<ul data-bind="foreach: userTest" id="userTest">
+		
+		<!-- Event list -->
+		<ul data-bind="foreach: eventList" id="eventList">
 			<li data-bind = "text: $data" class="events"></li>
 		</ul>
 		
